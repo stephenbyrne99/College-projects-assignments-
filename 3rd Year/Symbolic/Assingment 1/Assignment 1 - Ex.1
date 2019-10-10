@@ -1,0 +1,68 @@
+/* NOTES */
+/*Rules should be grouped but left most broken up as easier to follow exercise by exercise */
+  
+
+numeral(0).
+numeral(s(X)) :- numeral(X).
+numeral(p(X)) :- numeral(X).
+numeral(-X) :- numeral(X).
+
+numeral(X+Y) :- numeral(X), numeral(Y).
+numeral(X-Y) :- numeral(X), numeral(Y).
+
+add(0,X,X).
+add(s(X),Y,s(Z)) :- add(X,Y,Z).
+add(p(X),Y,p(Z)) :- add(X,Y,Z).
+
+/* EX 4 - NEGATION EXT */
+add2(-X,Y,Z) :- minus(X,T), add2(T,Y,Z).
+add2(X,-Y,Z) :- minus(Y,T), add2(X,T,Z).
+/* EX 4 FIN */
+
+/* EX 6 - SUBTRACTION EXT */
+add2(A-B,Y,Z) :- subtract(A,B,X), add2(X,Y,Z).
+add2(X,A-B,Z) :- subtract(A,B,Y), add2(X,Y,Z).
+add2(A-B,C-D,Z) :- subtract(A,B,X), subtract(C,D,Y), add2(X,Y,Z).
+/* EX 6 FIN */
+
+add2(s(A+B),Y,s(Z)) :- add2(A+B,Y,Z).
+add2(X,s(A+B),s(Z)) :- add2(X,A+B,Z).
+add2(s(A+B),s(C+D),s(s(Z)) :- add2(A+B,C+D,Z).
+
+add2(A+B,Y,Z) :- add(A,B,X), add2(X,Y,Z).
+add2(X,A+B,Z) :- add(A,B,Y), add2(X,Y,Z).
+add2(A+B,C+D,Z) :- add(A,B,X), add(C,D,Y), add2(X,Y,Z).
+
+/* EX 2 - ADDITION WITH NEGATIVES */
+add2(p(s(X)),Y,Z) :- add2(X,Y,Z).
+add2(s(p(X)),Y,Z) :- add2(X,Y,Z).
+
+add2(X,p(s(Y)),Z) :- add2(X,Y,Z).
+add2(X,s(p(Y)),Z) :- add2(X,Y,Z).
+
+add2(s(X),p(Y),Z) :- add2(X,Y,Z).
+add2(p(X),s(Y),Z) :- add2(X,Y,Z).
+/* EX 2 FIN */
+
+
+add2(X,Y,Z) :- add(X,Y,Z).
+
+/* EX 3 - MINUS - note : order of predicates/rules matters below */
+minus(0,0).
+minus(s(p(X)),Y) :- minus(X,Y).
+minus(p(s(X)),Y) :- minus(X,Y).
+minus(s(X),p(Y)) :- minus(X,Y).
+minus(p(X),s(Y)) :- minus(X,Y).
+/* EX 3 FIN */
+
+
+/* EX 5 - SUBTRACTION */
+subtract(X,Y,Z)  :- minus(Y,T),add2(X,T,Z).
+subtract(-X,Y,Z) :- minus(X,T), subtract(T,Y,Z).
+subtract(X,-Y,Z) :- minus(Y,T), subtract(X,T,Z).
+/* EX 5 FIN */
+
+
+
+
+
