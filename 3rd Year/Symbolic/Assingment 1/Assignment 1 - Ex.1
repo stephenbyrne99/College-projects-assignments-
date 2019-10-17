@@ -1,5 +1,6 @@
 /* NOTES */
-/*Rules should be grouped but left most broken up as easier to follow exercise by exercise */
+/*Rules should be grouped but left most broken up as easier to follow exercise by exercise    - Also get errors when not in certain order
+-EX 1-5 Work, errors with ex6 with -() lines...*/
   
 
 numeral(0).
@@ -17,6 +18,7 @@ add(p(X),Y,p(Z)) :- add(X,Y,Z).
 /* EX 4 - NEGATION EXT */
 add2(-X,Y,Z) :- minus(X,T), add2(T,Y,Z).
 add2(X,-Y,Z) :- minus(Y,T), add2(X,T,Z).
+add2(-X,-Y,Z):-minus(X,A), minus(Y,B), add2(A,B,Z).
 /* EX 4 FIN */
 
 /* EX 6 - SUBTRACTION EXT */
@@ -47,7 +49,7 @@ add2(p(X),s(Y),Z) :- add2(X,Y,Z).
 
 add2(X,Y,Z) :- add(X,Y,Z).
 
-/* EX 3 - MINUS - note : order of predicates/rules matters below */
+/* EX 3 - MINUS - note : order of predicates/rules matters below ? */
 minus(0,0).
 minus(s(p(X)),Y) :- minus(X,Y).
 minus(p(s(X)),Y) :- minus(X,Y).
@@ -56,10 +58,30 @@ minus(p(X),s(Y)) :- minus(X,Y).
 /* EX 3 FIN */
 
 
-/* EX 5 - SUBTRACTION */
+/* EX 5 - SUBTRACTION - some works not all */
 subtract(X,Y,Z)  :- minus(Y,T),add2(X,T,Z).
 subtract(-X,Y,Z) :- minus(X,T), subtract(T,Y,Z).
 subtract(X,-Y,Z) :- minus(Y,T), subtract(X,T,Z).
+subtract(-X,-Y,Z) :- minus (X,A), minus(Y,B), subtract(A,B,Z).
+
+
+subtract(A-B,Y,Z) :- subtract(A,B,T), subtract(T,Y,Z).
+subtract(X,A-B,Z) :- subtract(A,B,T), subtract(X,T,Z).
+subtract(A-B,C-D,Z) :- subtract(A,B,T) subtract(C,D,E), subtract(T,E,Z).
+
+/*
+	Tried to fix 6 with below, won't work, feel like I should be using other predicates and rules more to solve problems
+
+subtract(-(A+B),Y,Z) :- add2(A-B,Y,Z).
+subtract(X,-(A+B),Z) :- add2(X,A-B,Z).
+subtract(-(A+B),-(C+D),Z) :- add2(A,B,E),add2(C,D,F),add2(E,F,Z).
+
+subtract(-(A-B),Y,Z) :- subtract(A,B,C), minus(C,E),subtract(E,Y,Z).
+subtract(X,-(A-B),Z) :- subtract(A,B,C), minus(C,E),subtract(X,E,Z).
+subtract(-(A-B),-(C+D),Z) :- subtract(A,B,E), minus(E,F), subtract(C,D,G), 			minus(G,H),subtract(F,H,Z).
+
+*/
+
 /* EX 5 FIN */
 
 
